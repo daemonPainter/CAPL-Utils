@@ -1,0 +1,32 @@
+/*@!Encoding:1252*/
+
+/*
+ * Utilities for message counters, freshness values, and alive checks.
+ * 
+ * Part of the CAPL Utils library, available under GNU v3.0 on github
+ * https://github.com/daemonPainter/CAPL-Utils
+ */
+
+
+
+/**
+ * A simple routine to generate updated, sequential, alive counters.
+ *
+ * @param ALC The current alive counter
+ * @param limit The maximum value the counter reaches before resetting to zero
+ */
+int computeAliveCounter(int ALC, int limit) {
+  return (ALC == limit) ? 0 : ++ALC;
+}
+
+/**
+ * A simple routine to generate updated, sequential, alive counters.
+ * 
+ * This version of the function assumes the popular 4-bit size for alive counter signals.
+ *
+ * @param ALC The current alive counter
+ * @param limit The maximum value the counter reaches before resetting to zero
+ */
+int computeAliveCounter(int ALC) {
+  return computeAliveCounter(ALC,15);
+}
