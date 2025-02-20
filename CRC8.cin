@@ -1,0 +1,26 @@
+/*@!Encoding:1252*/
+
+/*
+ * Utilities computing CRC8.
+ * 
+ * Part of the CAPL Utils library, available under GNU v3.0 on github
+ * https://github.com/daemonPainter/CAPL-Utils
+ */
+
+includes
+{
+  #include "LUT\LU_CRC8_TECH-3250.cin"
+}
+
+byte computeCRC8_SAEJ1850(byte input[], int nBytes)
+{
+    byte data;
+    byte remainder = 0xFF;
+    int B = 0;
+    for (B = 0; B < nBytes; ++B)
+    {
+        data = input[B] ^ (remainder);
+        remainder = CRC8_LUT_TECH_3250[data] ^ (remainder << 8);
+    }
+    return ( (remainder) ^ 0xFF );
+}
