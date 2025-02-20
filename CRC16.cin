@@ -14,7 +14,7 @@ includes
   #include "LUT\LU_CRC16_CDMA2000.cin"
 }
 
-word computeCRC_CCITT(byte input[], int nBytes)
+word computeCRC16_CCITT(byte input[], int nBytes)
 {
     byte data;
     word remainder = 0xFFFF;
@@ -27,7 +27,7 @@ word computeCRC_CCITT(byte input[], int nBytes)
     return ( (remainder) ^ 0x0000 );
 }
 
-word computeCRC_ARC(byte input[], int nBytes)
+word computeCRC16_ARC(byte input[], int nBytes)
 {
     byte data;
     word remainder = 0xFFFF;
@@ -40,7 +40,7 @@ word computeCRC_ARC(byte input[], int nBytes)
     return ( (remainder) ^ 0x0000 );
 }
 
-word computeCRC_CDMA2000(byte input[], int nBytes)
+word computeCRC16_CDMA2000(byte input[], int nBytes)
 {
     byte data;
     word remainder = 0xFFFF;
