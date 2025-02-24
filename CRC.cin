@@ -1,0 +1,16 @@
+/*@!Encoding:1252*/
+
+/*
+ * Imports scripts for CRC computation.
+ * Only import this script in your configuration program
+ * 
+ * Part of the CAPL Utils library, available under GNU v3.0 on github
+ * https://github.com/daemonPainter/CAPL-Utils
+ */
+
+includes {
+  #include"CRCReflection.cin"
+  #include"CRC8.cin"
+  #include"CRC16.cin"
+  #include"CRC32.cin"
+}

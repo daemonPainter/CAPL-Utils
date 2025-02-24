@@ -1,0 +1,52 @@
+/*@!Encoding:1252*/
+
+/*
+ * Defines the utility to reflect data, used by some CRC algorithms.
+ * 
+ * Part of the CAPL Utils library, available under GNU v3.0 on github
+ * https://github.com/daemonPainter/CAPL-Utils
+ */
+
+dword reflect(byte data)
+{
+  byte reflection = 0;
+  char bit;
+  
+  for (bit = 0; bit < 8; ++bit)
+  {
+    if(data & 0x01) { reflection |= (1 << (7 - bit)); }
+    data = (data >> 1);
+  }
+  
+  return reflection;
+}
+
+
+dword reflect(word data)
+{
+  word reflection = 0;
+  char bit;
+  
+  for (bit = 0; bit < 16; ++bit)
+  {
+    if(data & 0x01) { reflection |= (1 << (15 - bit)); }
+    data = (data >> 1);
+  }
+  
+  return reflection;
+}
+
+
+dword reflect(dword data)
+{
+  dword reflection = 0;
+  char bit;
+  
+  for (bit = 0; bit < 32; ++bit)
+  {
+    if(data & 0x01) { reflection |= (1 << (31 - bit)); }
+    data = (data >> 1);
+  }
+  
+  return reflection;
+}

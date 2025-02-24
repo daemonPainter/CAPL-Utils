@@ -1,0 +1,57 @@
+/*@!Encoding:1252*/
+
+/*
+ * Utilities computing CRC32.
+ * 
+ * Part of the CAPL Utils library, available under GNU v3.0 on github
+ * https://github.com/daemonPainter/CAPL-Utils
+ */
+
+includes
+{
+  #include "LUT\LU_CRC32_AUTOSAR_F4ACFB13.cin"
+  #include "LUT\LU_CRC32_Ethernet_IEEE802_3.cin"
+}
+
+/**
+ * Returns the CRC32 of the input data computed according to AUTOSAR specification of CRC Routines R21-11.
+ * ref: https://www.autosar.org/fileadmin/standards/R21-11/CP/AUTOSAR_SWS_CRCLibrary.pdf
+ * The function uses a lookup table for efficiency.
+ * The polynomial is 0xF4ACFB13, initial remainder 0xFFFFFFFF, final XOR 0xFFFFFFFF, reflection of IN/OUT.
+ *
+ * @param input An array of bytes, with arbitrary size
+ * @param nBytes The size of the input array
+ */
+dword computeCRC32_AUTOSAR_F4ACFB13(byte input[], int nBytes)
+{
+    byte data;
+    dword remainder = 0xFFFFFFFF;
+    int B = 0;
+    for (B = 0; B < nBytes; ++B)
+    {
+        data = input[B] ^ (remainder >> (8));
+        remainder = CRC32_LUT_AUTOSAR_F4ACFB13[data] ^ (remainder << 8);
+    }
+    return ( (remainder) ^ 0xFFFFFFFF );
+}
+
+/**
+ * Returns the CRC8 of the input data computed according to Ethernet IEEE802.3 standard.
+ * The function uses a lookup table for efficiency.
+ * The polynomial is 0xF4ACFB13, initial remainder 0xFFFFFFFF, final XOR 0xFFFFFFFF, reflection of IN/OUT.
+ *
+ * @param input An array of bytes, with arbitrary size
+ * @param nBytes The size of the input array
+ */
+dword computeCRC32_Ethernet_IEEE802_3(byte input[], int nBytes)
+{
+    byte data;
+    dword remainder = 0xFFFFFFFF;
+    int B = 0;
+    for (B = 0; B < nBytes; ++B)
+    {
+        data = input[B] ^ (remainder >> (8));
+        remainder = CRC32_LUT_Ethernet_IEEE802_3[data] ^ (remainder << 8);
+    }
+    return ( (remainder) ^ 0xFFFFFFFF );
+}
