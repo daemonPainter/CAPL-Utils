@@ -10,8 +10,17 @@
 includes
 {
   #include "LUT\LU_CRC8_TECH-3250.cin"
+  #include "LUT\LU_CRC8_AUTOSAR_2F.cin"
 }
 
+/**
+ * Returns the CRC8 of the input data computed with the SAE J1850 algorithm.
+ * The function uses a lookup table for efficiency.
+ * The polynomial is 0x1D, initial remainder 0xFF, final XOR 0xFF, no reflection of IN/OUT.
+ *
+ * @param input An array of bytes, with arbitrary size
+ * @param nBytes The size of the input array
+ */
 byte computeCRC8_SAEJ1850(byte input[], int nBytes)
 {
     byte data;
@@ -21,6 +30,28 @@ byte computeCRC8_SAEJ1850(byte input[], int nBytes)
     {
         data = input[B] ^ (remainder);
         remainder = CRC8_LUT_TECH_3250[data] ^ (remainder << 8);
+    }
+    return ( (remainder) ^ 0xFF );
+}
+
+/**
+ * Returns the CRC8 of the input data computed according to AUTOSAR specification of CRC Routines R21-11.
+ * ref: https://www.autosar.org/fileadmin/standards/R21-11/CP/AUTOSAR_SWS_CRCLibrary.pdf
+ * The function uses a lookup table for efficiency.
+ * The polynomial is 0x2F, initial remainder 0xFF, final XOR 0xFF, no reflection of IN/OUT.
+ *
+ * @param input An array of bytes, with arbitrary size
+ * @param nBytes The size of the input array
+ */
+byte computeCRC8_AUTOSAR_2F(byte input[], int nBytes)
+{
+    byte data;
+    byte remainder = 0xFF;
+    int B = 0;
+    for (B = 0; B < nBytes; ++B)
+    {
+        data = input[B] ^ (remainder);
+        remainder = CRC8_LUT_AUTOSAR_2F[data] ^ (remainder << 8);
     }
     return ( (remainder) ^ 0xFF );
 }
