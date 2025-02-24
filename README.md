@@ -35,6 +35,9 @@ These files, for example `CRC8.cin` or `CRC16.cin`, define certain algorithms fo
 
 For a complete list of available checksum algorithms, please consult the dedicated paragraph.
 
+For ease of use, `#include "CRC.cin"` in your script only, it should import all necessary functions (recommended). If you prefer to keep things streamlined, import the CRC file with the desired lenght.
+Each file imports the necessary look-up tables. If you choose this option, remember to import the `CRCReflection.cin` file as well.
+
 ## Usage
 
 As I am building this file, kindly consider the documentation provided in the files.
