@@ -14,6 +14,14 @@ includes
   #include "LUT\LU_CRC16_CDMA2000.cin"
 }
 
+/**
+ * Returns the CRC16 of the input data computed with the classic CCITT algorithm.
+ * The function uses a lookup table for efficiency.
+ * The polynomial is 0x1021, initial remainder 0xFFFF, final XOR 0x0000, no reflection of IN/OUT.
+ *
+ * @param input An array of bytes, with arbitrary size
+ * @param nBytes The size of the input array
+ */
 word computeCRC16_CCITT(byte input[], int nBytes)
 {
     byte data;
@@ -27,6 +35,14 @@ word computeCRC16_CCITT(byte input[], int nBytes)
     return ( (remainder) ^ 0x0000 );
 }
 
+/**
+ * Returns the CRC16 of the input data computed with the ARC algorithm.
+ * The function uses a lookup table for efficiency.
+ * The polynomial is 0x8005, initial remainder 0xFFDD, final XOR 0x0000, reflection of IN/OUT.
+ *
+ * @param input An array of bytes, with arbitrary size
+ * @param nBytes The size of the input array
+ */
 word computeCRC16_ARC(byte input[], int nBytes)
 {
     byte data;
@@ -34,12 +50,20 @@ word computeCRC16_ARC(byte input[], int nBytes)
     int B = 0;
     for (B = 0; B < nBytes; ++B)
     {
-        data = input[B] ^ (remainder >> (8));
+        data = (byte)reflect(input[B]) ^ (remainder >> (8));
         remainder = CRC16_LUT_ARC[data] ^ (remainder << 8);
     }
-    return ( (remainder) ^ 0x0000 );
+    return ( (word)reflect(remainder) ^ 0x0000 );
 }
 
+/**
+ * Returns the CRC16 of the input data computed with the CDMA 2000 algorithm.
+ * The function uses a lookup table for efficiency.
+ * The polynomial is 0x1D, initial remainder 0xFFFF, final XOR 0x0000, no reflection of IN/OUT.
+ *
+ * @param input An array of bytes, with arbitrary size
+ * @param nBytes The size of the input array
+ */
 word computeCRC16_CDMA2000(byte input[], int nBytes)
 {
     byte data;
