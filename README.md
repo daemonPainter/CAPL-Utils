@@ -1,6 +1,10 @@
 # CAPL-Utils
 A collection of utility functions developed in CAPL and tested for rapid prototyping and on-the-run development of CAPL applications.
 
+Includes: **freshness values and alive counters**, **CRC computation utilities** to call in before outputting your simulated messaged. Will include **auto-scheduler** for periodic sender (something more customizable than the interactive generator) and **fault injection** routines for all of the above.
+
+Do you wish to see additional functionalities? [Ask for it!](https://github.com/daemonPainter/CAPL-Utils/labels/enhancement)
+
 ## Table of Contents
 1. Installation
    1. List of files
