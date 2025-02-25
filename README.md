@@ -55,6 +55,7 @@ The documentation _should_ be Doxygen compliant, although it would be necessary 
 | Name | Function call | Polynomial | Initial Value | Final XOR | Reflection IN | Reflection OUT |
 |------|---------------|------------|:-------------:|:---------:|:-------------:|:--------------:|
 | SAE J1850 | computeCRC8_SAEJ1850 | 0x1D | 0xFF | 0xFF | no | no |
+| AUTOSAR | computeCRC8_AUTOSAR_2F | 0x2F | 0xFF | 0xFF | no | no |
 
 ### CRC16
 
@@ -64,6 +65,11 @@ The documentation _should_ be Doxygen compliant, although it would be necessary 
 | CCITT | computeCRC16_CCITT | 0x1021 | 0xFFFF | 0x0000 | no | no |
 | CDMA2000 | computeCRC16_CDMA2000 | 0xC867 | 0xFFFF | 0x0000 | no | no |
 
+### CRC16
+
+| Name | Function call | Polynomial | Initial Value | Final XOR | Reflection IN | Reflection OUT |
+|------|---------------|------------|:-------------:|:---------:|:-------------:|:--------------:|
+| AUTOSAR | computeCRC32_AUTOSAR_F4ACFB13 | 0xF4ACFB13 | 0xFFFFFFFF | 0xFFFFFFFF | yes | yes |
 
 ## Contributions
 
