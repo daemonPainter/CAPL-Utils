@@ -65,7 +65,7 @@ The documentation _should_ be Doxygen compliant, although it would be necessary 
 | CCITT | computeCRC16_CCITT | 0x1021 | 0xFFFF | 0x0000 | no | no |
 | CDMA2000 | computeCRC16_CDMA2000 | 0xC867 | 0xFFFF | 0x0000 | no | no |
 
-### CRC16
+### CRC32
 
 | Name | Function call | Polynomial | Initial Value | Final XOR | Reflection IN | Reflection OUT |
 |------|---------------|------------|:-------------:|:---------:|:-------------:|:--------------:|
