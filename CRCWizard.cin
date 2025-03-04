@@ -1,0 +1,309 @@
+/*@!Encoding:1252*/
+
+/*
+ * A wizard to generate look-up tables for CRC omputation
+ * Usage: use a dummy configuration, or your configuration.
+ *        Import this script once, then somewhere (e.g. on pre-start{})
+ *        call whatever wizard needed.
+ *        Three wizards are provided for CRC8, CRC16, CRC32.
+ * 
+ * Part of the CAPL Utils library, available under GNU v3.0 on github
+ * https://github.com/daemonPainter/CAPL-Utils
+ */
+
+
+/**
+ * Creates a file for CRC8 look-up table formatted as a valid CAPL variable.
+ * This file is situated in a relative path to the script, in a folder named ./LUT
+ * 
+ * The file is a *.cin file which contains a single array of 256 elements.
+ * Both the array name and the file name are generated based off the input string
+ * "standardName".
+ *
+ * @param[in] standardName A string for the file and variable name
+ * @param[in] polynomial   The polynomial used to compute the remainder table
+ *
+ *
+ * @remark standardName is supposed to be a short string, do not exceed 16 chars.
+ * @remark standardName must include only alphanumeric characters and underscores "_".
+ */
+void crc8LUWizard(char standardName[], byte polynomial)
+{
+  byte remainder;
+  int dividend;
+  byte bit;
+  dword handle = 0;
+  int width = 8;
+  char val[5];
+  int i = 0;
+  
+  char buffer[64];    // generic buffer for all strings
+  int partialLength;  // utility for string
+  
+  /*
+   * Opens (or creates) the desired file in standard library folder at ./CAPL/LUT/.
+   * Remember that no check is performed on the length of the input name and it may
+   * result in overflow.
+   */ 
+  write("%d",elcount(buffer));
+  partialLength = snprintf(buffer,elcount(buffer),"./CAPL/LUT/LU_CRC8_");
+  strncat(buffer,standardName,partialLength + strlen(standardName) + 1);
+  strncat(buffer,".cin",partialLength + strlen(standardName) + 5);
+  handle = openFileWrite(buffer, 0);
+  
+  
+  /*
+   * printing header of file
+   */
+  filePutString("/*@!Encoding:1252*/\n\n",strlen("/*@!Encoding:1252*/\n\n"),handle);
+
+  filePutString("/*\n",strlen("/*\n"),handle);
+  partialLength = snprintf(buffer,elcount(buffer)," * Lookup Table for CRC8 ");
+  strncat(buffer,standardName,partialLength += (strlen(standardName) + 1));
+  strncat(buffer,"; POLY 0x",partialLength += 10);
+  ltoa((long)polynomial,val,16);
+  toUpper(val,val,elcount(val));
+  strncat(buffer,val,partialLength += elcount(val) + 1);
+  strncat(buffer,"\n",partialLength += 2);
+  filePutString(buffer,strlen(buffer),handle);
+  filePutString(" * \n",strlen(" * \n"),handle);
+  filePutString(" * Part of the CAPL Utils library, available under GNU v3.0 on github\n",strlen(" * Part of the CAPL Utils library, available under GNU v3.0 on github\n"),handle);
+  filePutString(" * https://github.com/daemonPainter/CAPL-Utils\n",strlen(" * https://github.com/daemonPainter/CAPL-Utils\n"),handle);
+  filePutString(" */\n\n",strlen(" */\n\n"),handle);
+  partialLength = snprintf(buffer,elcount(buffer),"variables\n{\n  byte CRC8_LUT_",buffer,polynomial);
+  strncat(buffer,standardName,partialLength += (strlen(standardName) + 1));
+  strncat(buffer,"[256] = { ",partialLength += 11);
+  filePutString(buffer,strlen(buffer),handle);
+  
+  
+  for (dividend = 0; dividend < 256; ++dividend)
+  {
+    remainder = dividend;
+    for (bit = 0; bit < 8; ++bit)
+    {
+      if (remainder & 0x80)
+      {
+        remainder = (remainder << 1) ^ polynomial;
+      }
+      else
+      {
+        remainder = (remainder << 1);
+      }
+    }
+    snprintf(val,elcount(val),"0x%02X",remainder);
+    filePutString(val,strlen(val),handle);  
+    if((dividend+1) == 256)
+    {
+      filePutString(" };",3,handle);
+    } else {
+      filePutString(", ",2,handle);
+    }
+    if((dividend+1) % 16 == 0)
+    {
+      filePutString("\n",strlen("\n"),handle);
+      for(i = 0; i < partialLength-14; ++i)
+      {       // buffer is unchanged since the last time, use it here (14 is the "variables\n{\n  " string portion
+        filePutString(" ",1,handle);
+      }
+    }
+  }
+  filePutString("\n}",strlen("\n}"),handle);
+  fileClose(handle);
+}
+
+/**
+ * Creates a file for CRC16 look-up table formatted as a valid CAPL variable.
+ * This file is situated in a relative path to the script, in a folder named ./LUT
+ * 
+ * The file is a *.cin file which contains a single array of 256 elements.
+ * Both the array name and the file name are generated based off the input string
+ * "standardName".
+ *
+ * @param[in] standardName A string for the file and variable name
+ * @param[in] polynomial   The polynomial used to compute the remainder table
+ *
+ *
+ * @remark standardName is supposed to be a short string, do not exceed 16 chars.
+ * @remark standardName must include only alphanumeric characters and underscores "_".
+ */
+void crc16LUWizard(char standardName[], word polynomial)
+{
+  word remainder;
+  int dividend;
+  word bit;
+  dword handle = 0;
+  int width = 16;
+  char val[7];
+  int i = 0;
+  
+  char buffer[64];    // generic buffer for all strings
+  int partialLength;  // utility for string
+  
+  /*
+   * Opens (or creates) the desired file in standard library folder at ./CAPL/LUT/.
+   * Remember that no check is performed on the length of the input name and it may
+   * result in overflow.
+   */ 
+  write("%d",elcount(buffer));
+  partialLength = snprintf(buffer,elcount(buffer),"./CAPL/LUT/LU_CRC16_");
+  strncat(buffer,standardName,partialLength + strlen(standardName) + 1);
+  strncat(buffer,".cin",partialLength + strlen(standardName) + 5);
+  handle = openFileWrite(buffer, 0);
+  
+  
+  /*
+   * printing header of file
+   */
+  filePutString("/*@!Encoding:1252*/\n\n",strlen("/*@!Encoding:1252*/\n\n"),handle);
+
+  filePutString("/*\n",strlen("/*\n"),handle);
+  partialLength = snprintf(buffer,elcount(buffer)," * Lookup Table for CRC16 ");
+  strncat(buffer,standardName,partialLength += (strlen(standardName) + 1));
+  strncat(buffer,"; POLY 0x",partialLength += 10);
+  ltoa((long)polynomial,val,16);
+  toUpper(val,val,elcount(val));
+  strncat(buffer,val,partialLength += elcount(val) + 1);
+  strncat(buffer,"\n",partialLength += 2);
+  filePutString(buffer,strlen(buffer),handle);
+  filePutString(" * \n",strlen(" * \n"),handle);
+  filePutString(" * Part of the CAPL Utils library, available under GNU v3.0 on github\n",strlen(" * Part of the CAPL Utils library, available under GNU v3.0 on github\n"),handle);
+  filePutString(" * https://github.com/daemonPainter/CAPL-Utils\n",strlen(" * https://github.com/daemonPainter/CAPL-Utils\n"),handle);
+  filePutString(" */\n\n",strlen(" */\n\n"),handle);
+  partialLength = snprintf(buffer,elcount(buffer),"variables\n{\n  word CRC16_LUT_",buffer,polynomial);
+  strncat(buffer,standardName,partialLength += (strlen(standardName) + 1));
+  strncat(buffer,"[256] = { ",partialLength += 11);
+  filePutString(buffer,strlen(buffer),handle);
+  
+  
+  for (dividend = 0; dividend < 256; ++dividend)
+  {
+    remainder = dividend << (width - 8);
+    for (bit = 0; bit < 8; ++bit)
+    {	
+      if (remainder & (1 << (width - 1)))
+      {
+        remainder = (remainder << 1) ^ polynomial;
+      }
+      else
+      {
+        remainder = (remainder << 1);
+      }
+    }
+    snprintf(val,elcount(val),"0x%04X",remainder);
+    filePutString(val,strlen(val),handle); 
+    if((dividend+1) == 256)
+    {
+      filePutString(" };",3,handle);
+    } else {
+      filePutString(", ",2,handle);
+    }
+    if((dividend+1) % 16 == 0) {
+      filePutString("\n",strlen("\n"),handle);
+      for(i = 0; i < partialLength-14; ++i)
+      {       // buffer is unchanged since the last time, use it here (14 is the "variables\n{\n  " string portion
+        filePutString(" ",1,handle);
+      }
+    }
+  }
+  filePutString("\n}",strlen("\n}"),handle);
+  fileClose(handle);
+}
+
+/**
+ * Creates a file for CRC32 look-up table formatted as a valid CAPL variable.
+ * This file is situated in a relative path to the script, in a folder named ./LUT
+ * 
+ * The file is a *.cin file which contains a single array of 256 elements.
+ * Both the array name and the file name are generated based off the input string
+ * "standardName".
+ *
+ * @param[in] standardName A string for the file and variable name
+ * @param[in] polynomial   The polynomial used to compute the remainder table
+ *
+ *
+ * @remark standardName is supposed to be a short string, do not exceed 16 chars.
+ * @remark standardName must include only alphanumeric characters and underscores "_".
+ */
+void crc32LUWizard(char standardName[], dword polynomial)
+{
+  dword remainder;
+  int dividend;
+  dword bit;
+  dword handle = 0;
+  int width = 32;
+  char val[11];
+  int i = 0;
+  
+  char buffer[64];    // generic buffer for all strings
+  int partialLength;  // utility for string
+  
+  /*
+   * Opens (or creates) the desired file in standard library folder at ./CAPL/LUT/.
+   * Remember that no check is performed on the length of the input name and it may
+   * result in overflow.
+   */ 
+  write("%d",elcount(buffer));
+  partialLength = snprintf(buffer,elcount(buffer),"./CAPL/LUT/LU_CRC32_");
+  strncat(buffer,standardName,partialLength + strlen(standardName) + 1);
+  strncat(buffer,".cin",partialLength + strlen(standardName) + 5);
+  handle = openFileWrite(buffer, 0);
+  
+  
+  /*
+   * printing header of file
+   */
+  filePutString("/*@!Encoding:1252*/\n\n",strlen("/*@!Encoding:1252*/\n\n"),handle);
+
+  filePutString("/*\n",strlen("/*\n"),handle);
+  partialLength = snprintf(buffer,elcount(buffer)," * Lookup Table for CRC32 ");
+  strncat(buffer,standardName,partialLength += (strlen(standardName) + 1));
+  strncat(buffer,"; POLY 0x",partialLength += 10);
+  ltoa((long)polynomial,val,16);
+  toUpper(val,val,elcount(val));
+  strncat(buffer,val,partialLength += elcount(val) + 1);
+  strncat(buffer,"\n",partialLength += 2);
+  filePutString(buffer,strlen(buffer),handle);
+  filePutString(" * \n",strlen(" * \n"),handle);
+  filePutString(" * Part of the CAPL Utils library, available under GNU v3.0 on github\n",strlen(" * Part of the CAPL Utils library, available under GNU v3.0 on github\n"),handle);
+  filePutString(" * https://github.com/daemonPainter/CAPL-Utils\n",strlen(" * https://github.com/daemonPainter/CAPL-Utils\n"),handle);
+  filePutString(" */\n\n",strlen(" */\n\n"),handle);
+  partialLength = snprintf(buffer,elcount(buffer),"variables\n{\n  dword CRC32_LUT_",buffer,polynomial);
+  strncat(buffer,standardName,partialLength += (strlen(standardName) + 1));
+  strncat(buffer,"[256] = { ",partialLength += 11);
+  filePutString(buffer,strlen(buffer),handle);
+  
+  
+  for (dividend = 0; dividend < 256; ++dividend)
+  {
+    remainder = dividend << (width - 8);
+    for (bit = 0; bit < 8; ++bit)
+    {	
+      if (remainder & (1 << (width - 1)))
+      {
+        remainder = (remainder << 1) ^ polynomial;
+      }
+      else
+      {
+        remainder = (remainder << 1);
+      }
+    }
+    snprintf(val,elcount(val),"0x%08X",remainder);
+    filePutString(val,strlen(val),handle);
+    if((dividend+1) == 256)
+    {
+      filePutString(" };",3,handle);
+    } else {
+      filePutString(", ",2,handle);
+    }
+    if((dividend+1) % 16 == 0)
+    {
+      filePutString("\n",strlen("\n"),handle);
+      for(i = 0; i < partialLength-14; ++i)
+      {       // buffer is unchanged since the last time, use it here (14 is the "variables\n{\n  " string portion
+        filePutString(" ",1,handle);
+      }
+    }
+  }
+  filePutString("\n}",strlen("\n}"),handle);
+  fileClose(handle);
+}
