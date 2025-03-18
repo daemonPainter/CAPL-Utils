@@ -48,6 +48,8 @@ As I am building this file, kindly consider the documentation provided in the fi
 
 The documentation _should_ be Doxygen compliant, although it would be necessary to use [this extension](https://github.com/BretislavRychta/CAPL-filter-for-Doxygen) to build them. It is in the TODO list, if you were looking for ways to contribute... 🙄
 
+Detailed instructions, how to-s, and resources are available in the [Wiki](https://github.com/daemonPainter/CAPL-Utils/wiki). Contributions are welcomed.
+
 ## List of Checksum Algorithms
 
 ### CRC8
