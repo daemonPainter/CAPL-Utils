@@ -76,7 +76,7 @@ int verify_CRC8_AUTOSAR_2F_5()
   _testcrc_buffer[5] = 0xCC;
   _testcrc_buffer[6] = 0xDD;
   _testcrc_buffer[7] = 0xEE;
-  _testcrc_buffer[7] = 0xFF;
+  _testcrc_buffer[8] = 0xFF;
   _testcrc_bufferLength = 9;
   if (_testcrc_debug) { write("0x%x", computeCRC8_AUTOSAR_2F(_testcrc_buffer, _testcrc_bufferLength)); }
   return computeCRC8_AUTOSAR_2F(_testcrc_buffer, _testcrc_bufferLength) == 0x11 ? 1 : 0;
@@ -103,5 +103,91 @@ int verify_CRC8_AUTOSAR_2F_7()
   _testcrc_bufferLength = 4;
   if (_testcrc_debug) { write("0x%x", computeCRC8_AUTOSAR_2F(_testcrc_buffer, _testcrc_bufferLength)); }
   return computeCRC8_AUTOSAR_2F(_testcrc_buffer, _testcrc_bufferLength) == 0x6C ? 1 : 0;
+}
+
+// SAEJ1850
+
+
+int verify_CRC8_SAEJ1850_1()
+{
+  for(j = 0; j<64; j++) { _testcrc_buffer[j] = 0x00; }
+  _testcrc_bufferLength = 4;
+  if (_testcrc_debug) { write("0x%x", computeCRC8_SAEJ1850(_testcrc_buffer, _testcrc_bufferLength)); }
+  return computeCRC8_SAEJ1850(_testcrc_buffer, _testcrc_bufferLength) == 0x59 ? 1 : 0;
+}
+
+int verify_CRC8_SAEJ1850_2()
+{
+  for(j = 0; j<64; j++) { _testcrc_buffer[j] = 0x00; }
+  _testcrc_buffer[0] = 0xF2;
+  _testcrc_buffer[1] = 0x01;
+  _testcrc_buffer[2] = 0x83;
+  _testcrc_bufferLength = 3;
+  if (_testcrc_debug) { write("0x%x", computeCRC8_SAEJ1850(_testcrc_buffer, _testcrc_bufferLength)); }
+  return computeCRC8_SAEJ1850(_testcrc_buffer, _testcrc_bufferLength) == 0x37 ? 1 : 0;
+}
+
+int verify_CRC8_SAEJ1850_3()
+{
+  for(j = 0; j<64; j++) { _testcrc_buffer[j] = 0x00; }
+  _testcrc_buffer[0] = 0x0F;
+  _testcrc_buffer[1] = 0xAA;
+  _testcrc_buffer[2] = 0x00;
+  _testcrc_buffer[3] = 0x55;
+  _testcrc_bufferLength = 4;
+  if (_testcrc_debug) { write("0x%x", computeCRC8_SAEJ1850(_testcrc_buffer, _testcrc_bufferLength)); }
+  return computeCRC8_SAEJ1850(_testcrc_buffer, _testcrc_bufferLength) == 0x79 ? 1 : 0;
+}
+
+int verify_CRC8_SAEJ1850_4()
+{
+  for(j = 0; j<64; j++) { _testcrc_buffer[j] = 0x00; }
+  _testcrc_buffer[0] = 0x00;
+  _testcrc_buffer[1] = 0xFF;
+  _testcrc_buffer[2] = 0x55;
+  _testcrc_buffer[3] = 0x11;
+  _testcrc_bufferLength = 4;
+  if (_testcrc_debug) { write("0x%x", computeCRC8_SAEJ1850(_testcrc_buffer, _testcrc_bufferLength)); }
+  return computeCRC8_SAEJ1850(_testcrc_buffer, _testcrc_bufferLength) == 0xB8 ? 1 : 0;
+}
+
+int verify_CRC8_SAEJ1850_5()
+{
+  for(j = 0; j<64; j++) { _testcrc_buffer[j] = 0x00; }
+  _testcrc_buffer[0] = 0x33;
+  _testcrc_buffer[1] = 0x22;
+  _testcrc_buffer[2] = 0x55;
+  _testcrc_buffer[3] = 0xAA;
+  _testcrc_buffer[4] = 0xBB;
+  _testcrc_buffer[5] = 0xCC;
+  _testcrc_buffer[6] = 0xDD;
+  _testcrc_buffer[7] = 0xEE;
+  _testcrc_buffer[8] = 0xFF;
+  _testcrc_bufferLength = 9;
+  if (_testcrc_debug) { write("0x%x", computeCRC8_SAEJ1850(_testcrc_buffer, _testcrc_bufferLength)); }
+  return computeCRC8_SAEJ1850(_testcrc_buffer, _testcrc_bufferLength) == 0xCB ? 1 : 0;
+}
+
+int verify_CRC8_SAEJ1850_6()
+{
+  for(j = 0; j<64; j++) { _testcrc_buffer[j] = 0x00; }
+  _testcrc_buffer[0] = 0x92;
+  _testcrc_buffer[1] = 0x6B;
+  _testcrc_buffer[2] = 0x55;
+  _testcrc_bufferLength = 3;
+  if (_testcrc_debug) { write("0x%x", computeCRC8_SAEJ1850(_testcrc_buffer, _testcrc_bufferLength)); }
+  return computeCRC8_SAEJ1850(_testcrc_buffer, _testcrc_bufferLength) == 0x8C ? 1 : 0;
+}
+
+int verify_CRC8_SAEJ1850_7()
+{
+  for(j = 0; j<64; j++) { _testcrc_buffer[j] = 0x00; }
+  _testcrc_buffer[0] = 0xFF;
+  _testcrc_buffer[1] = 0xFF;
+  _testcrc_buffer[2] = 0xFF;
+  _testcrc_buffer[3] = 0xFF;
+  _testcrc_bufferLength = 4;
+  if (_testcrc_debug) { write("0x%x", computeCRC8_SAEJ1850(_testcrc_buffer, _testcrc_bufferLength)); }
+  return computeCRC8_SAEJ1850(_testcrc_buffer, _testcrc_bufferLength) == 0x74 ? 1 : 0;
 }
 

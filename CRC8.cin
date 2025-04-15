@@ -14,6 +14,9 @@ includes
  */
 
 variables {
+  byte __CRC8__internal_J1850_DATA;
+  byte __CRC8__internal_J1850_REMAINDER;
+  int __CRC8__internal_J1850_B;
   byte __CRC8__internal_AUTOSAR_2F_DATA;
   byte __CRC8__internal_AUTOSAR_2F_REMAINDER;
   int __CRC8__internal_AUTOSAR_2F_B;
@@ -31,15 +34,14 @@ variables {
  */
 byte computeCRC8_SAEJ1850(byte input[], int nBytes)
 {
-    byte data;
-    byte remainder = 0xFF;
-    int B = 0;
-    for (B = 0; B < nBytes; ++B)
+    __CRC8__internal_J1850_REMAINDER = 0xFF;
+    __CRC8__internal_J1850_B = 0;
+    for (__CRC8__internal_J1850_B = 0; __CRC8__internal_J1850_B < nBytes; ++__CRC8__internal_J1850_B)
     {
-        data = input[B] ^ (remainder);
-        remainder = CRC8_LUT_TECH_3250[data] ^ (remainder << 8);
+        __CRC8__internal_J1850_DATA = input[__CRC8__internal_J1850_B] ^ (__CRC8__internal_J1850_REMAINDER);
+        __CRC8__internal_J1850_REMAINDER = CRC8_LUT_TECH_3250[__CRC8__internal_J1850_DATA] ^ (__CRC8__internal_J1850_REMAINDER << 8); // LUT name doesn't match, but LUT values are OK
     }
-    return ( (remainder) ^ 0xFF );
+    return ( (__CRC8__internal_J1850_REMAINDER) ^ 0xFF );
 }
 
 /**
