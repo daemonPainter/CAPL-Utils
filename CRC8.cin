@@ -1,4 +1,10 @@
 /*@!Encoding:1252*/
+includes
+{
+  #include "LUT\LU_CRC8_TECH-3250.cin"
+  #include "LUT\LU_CRC8_AUTOSAR_2F.cin"
+}
+
 
 /*
  * Utilities computing CRC8.
@@ -7,11 +13,13 @@
  * https://github.com/daemonPainter/CAPL-Utils
  */
 
-includes
-{
-  #include "LUT\LU_CRC8_TECH-3250.cin"
-  #include "LUT\LU_CRC8_AUTOSAR_2F.cin"
+variables {
+  byte __CRC8__internal_AUTOSAR_2F_DATA;
+  byte __CRC8__internal_AUTOSAR_2F_REMAINDER;
+  int __CRC8__internal_AUTOSAR_2F_B;
 }
+
+
 
 /**
  * Returns the CRC8 of the input data computed with the SAE J1850 algorithm.
@@ -45,13 +53,19 @@ byte computeCRC8_SAEJ1850(byte input[], int nBytes)
  */
 byte computeCRC8_AUTOSAR_2F(byte input[], int nBytes)
 {
-    byte data;
-    byte remainder = 0xFF;
-    int B = 0;
-    for (B = 0; B < nBytes; ++B)
+    //byte data = 0;
+    //write("0x%02X",__CRC8__internal_AUTOSAR_2F_DATA);
+  
+    __CRC8__internal_AUTOSAR_2F_REMAINDER = 0xFF;
+    __CRC8__internal_AUTOSAR_2F_B = 0;
+    for (__CRC8__internal_AUTOSAR_2F_B = 0; __CRC8__internal_AUTOSAR_2F_B < nBytes; ++__CRC8__internal_AUTOSAR_2F_B)
     {
-        data = input[B] ^ (remainder);
-        remainder = CRC8_LUT_AUTOSAR_2F[data] ^ (remainder << 8);
+        //write("data before: 0x%02X", data);
+        __CRC8__internal_AUTOSAR_2F_DATA = input[__CRC8__internal_AUTOSAR_2F_B] ^ (__CRC8__internal_AUTOSAR_2F_REMAINDER);
+        //write("data after: 0x%02X", data);
+        __CRC8__internal_AUTOSAR_2F_REMAINDER = CRC8_LUT_AUTOSAR_2F[__CRC8__internal_AUTOSAR_2F_DATA] ^ (__CRC8__internal_AUTOSAR_2F_REMAINDER << 8);
+        //write("remainder after: 0x%02X", remainder);
     }
-    return ( (remainder) ^ 0xFF );
+    //write("0x%02X",__CRC8__internal_AUTOSAR_2F_DATA);
+    return ( (__CRC8__internal_AUTOSAR_2F_REMAINDER) ^ 0xFF );
 }
