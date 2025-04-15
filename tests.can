@@ -1,0 +1,70 @@
+/*@!Encoding:1252*/
+
+/*
+ * Test control suite for CRC computation.
+ * Include in your setup as a standalone module, runs basic tests cases
+ * Will print test results in the Write window and stop the measurement
+ * 
+ * Part of the CAPL Utils library, available under GNU v3.0 on github
+ * https://github.com/daemonPainter/CAPL-Utils
+ */
+
+includes
+{
+  #include "test\_test_crc.cin"
+}
+
+variables
+{
+  
+}
+
+on start {
+  
+  write("running test cases");
+  
+  if(verify_CRC8_AUTOSAR_2F_1()) {
+    write("verify_CRC8_AUTOSAR_2F_1 .. PASSED");
+  } else {
+    write("verify_CRC8_AUTOSAR_2F_1 .. FAILED");
+  }
+  
+  if(verify_CRC8_AUTOSAR_2F_2()) {
+    write("verify_CRC8_AUTOSAR_2F_2 .. PASSED");
+  } else {
+    write("verify_CRC8_AUTOSAR_2F_2 .. FAILED");
+  }
+  
+  if(verify_CRC8_AUTOSAR_2F_3()) {
+    write("verify_CRC8_AUTOSAR_2F_3 .. PASSED");
+  } else {
+    write("verify_CRC8_AUTOSAR_2F_3 .. FAILED");
+  }
+  
+  if(verify_CRC8_AUTOSAR_2F_4()) {
+    write("verify_CRC8_AUTOSAR_2F_4 .. PASSED");
+  } else {
+    write("verify_CRC8_AUTOSAR_2F_4 .. FAILED");
+  }
+  
+  if(verify_CRC8_AUTOSAR_2F_5()) {
+    write("verify_CRC8_AUTOSAR_2F_5 .. PASSED");
+  } else {
+    write("verify_CRC8_AUTOSAR_2F_5 .. FAILED");
+  }
+  
+  if(verify_CRC8_AUTOSAR_2F_6()) {
+    write("verify_CRC8_AUTOSAR_2F_6 .. PASSED");
+  } else {
+    write("verify_CRC8_AUTOSAR_2F_6 .. FAILED");
+  }
+  
+  if(verify_CRC8_AUTOSAR_2F_7()) {
+    write("verify_CRC8_AUTOSAR_2F_7 .. PASSED");
+  } else {
+    write("verify_CRC8_AUTOSAR_2F_7 .. FAILED");
+  }
+  
+  
+  stop();
+}
