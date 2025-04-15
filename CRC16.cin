@@ -14,6 +14,12 @@ includes
   #include "LUT\LU_CRC16_CDMA2000.cin"
 }
 
+variables {
+  word __CRC16__internal_CCITT_DATA;
+  word __CRC16__internal_CCITT_REMAINDER;
+  int __CRC16__internal_CCITT_B;
+}
+
 /**
  * Returns the CRC16 of the input data computed with the classic CCITT algorithm.
  * The function uses a lookup table for efficiency.
@@ -24,15 +30,14 @@ includes
  */
 word computeCRC16_CCITT(byte input[], int nBytes)
 {
-    byte data;
-    word remainder = 0xFFFF;
-    int B = 0;
-    for (B = 0; B < nBytes; ++B)
+    word __CRC16__internal_CCITT_REMAINDER = 0xFFFF;
+    __CRC16__internal_CCITT_B = 0;
+    for (__CRC16__internal_CCITT_B = 0; __CRC16__internal_CCITT_B < nBytes; ++__CRC16__internal_CCITT_B)
     {
-        data = input[B] ^ (remainder >> (8));
-        remainder = CRC16_LUT_CCITT[data] ^ (remainder << 8);
+        __CRC16__internal_CCITT_DATA = input[__CRC16__internal_CCITT_B] ^ (__CRC16__internal_CCITT_REMAINDER >> (8));
+        __CRC16__internal_CCITT_REMAINDER = CRC16_LUT_CCITT[__CRC16__internal_CCITT_DATA] ^ (__CRC16__internal_CCITT_REMAINDER << 8);
     }
-    return ( (remainder) ^ 0x0000 );
+    return ( (__CRC16__internal_CCITT_REMAINDER) ^ 0x0000 );
 }
 
 /**
